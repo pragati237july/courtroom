@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CourtCraft | Fashion-first sportswear</title>
+<meta name="description" content="CourtCraft is a fashion-first sportswear brand founded by two sisters. Shop football-inspired jerseys, send us your own design, and gift with free wrapping. Prototype storefront.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#F7F5F0; --ink:#0A0A0A; --char:#2B2B2B; --grey:#E4E1DA; --mid:#5B5953;
+  --orange:#E8590C; --line:rgba(10,10,10,.18);
+  --band:#0A0A0A; --band-ink:#F7F5F0;
+  --tint0:#E9E4D8; --tint1:#DDDAD3; --tint2:#F3D7C4; --tint3:#D9DFE8; --tint4:#E4E1DA; --tint5:#EBD9CF;
+  --disp:'Anton','Impact','Arial Narrow',sans-serif;
+  --body:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --pad:clamp(1rem,4vw,3rem);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121212; --ink:#F4F1EA; --char:#D8D5CE; --grey:#232323; --mid:#A9A69E; --line:rgba(244,241,234,.24);
+    --band:#1E1E1E; --band-ink:#F4F1EA;
+    --tint0:#242321; --tint1:#1F2124; --tint2:#2B1F18; --tint3:#1B2230; --tint4:#262626; --tint5:#2A211C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121212; --ink:#F4F1EA; --char:#D8D5CE; --grey:#232323; --mid:#A9A69E; --line:rgba(244,241,234,.24);
+  --band:#1E1E1E; --band-ink:#F4F1EA;
+  --tint0:#242321; --tint1:#1F2124; --tint2:#2B1F18; --tint3:#1B2230; --tint4:#262626; --tint5:#2A211C;
+}
+
+/* ============ BASE ============ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 5rem);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.55 var(--body)}
+svg,img{display:block;max-width:100%}
+a{color:inherit}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+h1,h2,h3{font-family:var(--disp);font-weight:400;text-transform:uppercase;line-height:.95;margin:0;letter-spacing:.005em}
+h2{font-size:clamp(2.3rem,5.6vw,4.6rem)}
+h3{font-size:1.65rem}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.band :focus-visible,.proto-strip :focus-visible{outline-color:var(--band-ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:0;background:var(--orange);color:#0A0A0A;padding:.75rem 1rem;z-index:100;font-weight:700}
+.skip:focus{left:0}
+.wrap{padding:clamp(3rem,7vw,6rem) var(--pad)}
+.note{font-size:.9rem;color:var(--mid);margin-top:1.5rem;max-width:60ch}
+.link{background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;cursor:pointer;font-weight:600;min-height:44px;display:inline-flex;align-items:center}
+.link:hover{text-decoration-color:var(--orange)}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 1.5rem;border:2px solid var(--ink);background:transparent;color:var(--ink);font-weight:700;font-size:.98rem;letter-spacing:.02em;text-decoration:none;cursor:pointer;border-radius:0;transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(0,0);box-shadow:none}
+.btn-primary{background:var(--orange);border-color:var(--ink);color:#0A0A0A}
+.btn-fixed-dark{background:#0A0A0A;border-color:#0A0A0A;color:#F7F5F0}
+.btn-fixed-dark:hover{box-shadow:4px 4px 0 #F7F5F0}
+.band .btn{border-color:var(--band-ink);color:var(--band-ink)}
+.band .btn-primary{border-color:var(--orange);color:#0A0A0A}
+.band .btn:hover{box-shadow:4px 4px 0 var(--orange)}
+
+/* ============ HEADER ============ */
+.proto-strip{background:var(--band);color:var(--band-ink);font-size:.82rem;text-align:center;padding:.5rem var(--pad)}
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--paper);border-bottom:2px solid var(--ink)}
+.hdr-in{display:flex;align-items:center;gap:.75rem;padding:.4rem var(--pad);min-height:68px;position:relative}
+.mark{font:400 1.85rem/1 var(--disp);text-decoration:none;letter-spacing:.03em;display:inline-flex;align-items:center;min-height:44px}
+.mark .o{display:inline-block;width:.78em;height:.78em;border-radius:50%;background:var(--orange);position:relative;margin:0 .03em;
+  background-image:linear-gradient(#0A0A0A,#0A0A0A),linear-gradient(#0A0A0A,#0A0A0A);background-size:2px 100%,100% 2px;background-position:center;background-repeat:no-repeat;
+  transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.mark:hover .o{transform:rotate(180deg)}
+.nav{margin-left:auto;display:flex;align-items:center;gap:.15rem}
+.nav a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 .9rem;font-weight:600;text-decoration:none}
+.nav a::after{content:"";position:absolute;left:.9rem;right:.9rem;bottom:6px;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.nav a:hover::after,.nav a[aria-current="page"]::after{transform:scaleX(1)}
+.cart-link{display:inline-flex;align-items:center;min-height:44px;padding:0 .9rem;border:2px solid var(--ink);font-weight:700;text-decoration:none;transition:background-color .15s}
+.cart-link:hover{background:var(--grey)}
+.cart-link[aria-current="page"]{background:var(--ink);color:var(--paper)}
+.count{min-width:1.7rem;height:1.7rem;margin-left:.55rem;padding:0 .4rem;display:inline-grid;place-items:center;background:var(--orange);color:#0A0A0A;font-weight:700;font-size:.85rem}
+.count.bump{animation:pop .35s ease}
+.menu-btn{display:none;min-height:44px;padding:0 1rem;border:2px solid var(--ink);background:transparent;font-weight:700;cursor:pointer}
+@keyframes pop{40%{transform:scale(1.35)}}
+
+/* ============ HERO ============ */
+.hero{display:grid;grid-template-columns:repeat(12,1fr);column-gap:1.5rem;padding:clamp(1.5rem,4vw,3rem) var(--pad) clamp(2.5rem,5vw,4rem);overflow:hidden;position:relative}
+.hero-copy{grid-column:1/8;grid-row:1;align-self:center;position:relative;z-index:2}
+.hero h1{font-size:clamp(3.6rem,10.4vw,10.5rem);line-height:.88;letter-spacing:-.005em}
+.hero h1:focus{outline:none}
+.line{display:block;overflow:hidden;padding-bottom:.05em}
+.line>span{display:block}
+.line.or{color:var(--orange)}
+.intro .line>span{animation:rise .95s cubic-bezier(.2,.8,.2,1) both}
+.intro .line:nth-child(2)>span{animation-delay:.09s}
+.intro .line:nth-child(3)>span{animation-delay:.18s}
+.intro .line:nth-child(4)>span{animation-delay:.27s}
+@keyframes rise{from{transform:translateY(108%)}to{transform:none}}
+.lead{max-width:44ch;margin-top:1.75rem;font-size:1.15rem}
+.cta-row{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
+.hero-stage-col{grid-column:7/13;grid-row:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem}
+.hero-stage{position:relative;width:min(36rem,100%);aspect-ratio:1;display:grid;place-items:center}
+.disc{position:absolute;inset:4%}
+.disc svg{width:100%;height:100%}
+.intro .disc{animation:spin-in 1.1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes spin-in{from{transform:scale(.6) rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
+.hero-jersey{position:relative;width:70%;transform:rotate(-4deg)}
+.intro .hero-jersey{animation:drop .9s .25s cubic-bezier(.2,.9,.3,1.1) both}
+@keyframes drop{from{transform:translateY(-40px) rotate(-12deg);opacity:0}to{transform:rotate(-4deg);opacity:1}}
+.hero-sw{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center}
+.hero-sw span{font-size:.9rem;font-weight:600;margin-right:.35rem}
+
+/* ============ SWATCHES / CHIPS ============ */
+.sw{--c1:#000;--c2:#000;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);padding:0;cursor:pointer;background:linear-gradient(135deg,var(--c1) 50%,var(--c2) 50%);transition:transform .15s ease,box-shadow .15s ease}
+.sw:hover{transform:scale(1.12)}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap}
+.dots li{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--ink);background:linear-gradient(135deg,var(--c1) 50%,var(--c2) 50%)}
+.chip{min-width:48px;min-height:44px;padding:0 .8rem;border:2px solid var(--ink);background:transparent;font-weight:700;cursor:pointer;transition:background-color .15s,color .15s,transform .15s}
+.chip:hover{background:var(--grey)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.opts{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center}
+
+/* ============ BANDS ============ */
+.band{background:var(--band);color:var(--band-ink)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr)}
+.pillars>div{padding:clamp(1.75rem,4vw,3rem) var(--pad);border-left:1px solid rgba(247,245,240,.25)}
+.pillars>div:first-child{border-left:0}
+.pillars h2{font-size:clamp(2rem,4vw,3.2rem);margin-bottom:.6rem}
+.pillars p{max-width:34ch;opacity:.9}
+
+/* ============ PRODUCT CARDS ============ */
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:2.25rem}
+.pimg{position:relative;display:grid;place-items:center;background:var(--tint,var(--grey));overflow:hidden;text-decoration:none}
+.pimg svg{width:var(--sw,72%);height:auto;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.pcard:hover .pimg svg,.fcard:hover .pimg svg,.pimg:focus-visible svg{transform:scale(1.06) rotate(-2.5deg)}
+.pimg{aspect-ratio:1/1.02}
+.prow{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.prow h3 a{text-decoration:none}
+.prow h3 a:hover{text-decoration:underline;text-decoration-color:var(--orange);text-decoration-thickness:3px}
+.price{font-weight:700;font-size:1.15rem;white-space:nowrap}
+.fabric{font-size:.92rem;color:var(--mid);margin-top:.35rem}
+.fgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:2.25rem 1.75rem;align-items:start}
+.f0,.f3{grid-column:span 7}.f1,.f2{grid-column:span 5}
+.f0 .pimg,.f3 .pimg{aspect-ratio:7/5;--sw:44%}
+.f1 .pimg,.f2 .pimg{aspect-ratio:1/1;--sw:66%}
+.f1{margin-top:3.5rem}.f2{margin-top:-1.5rem}
+.fbody{padding-top:1rem;display:grid;gap:.7rem}
+.pact{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.4rem}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem 1.75rem;align-items:start}
+.sgrid>:nth-child(3n+2){margin-top:3.5rem}
+.pbody{padding-top:1rem;display:grid;gap:.75rem}
+.feat li{position:relative;padding-left:1.1rem;font-size:.93rem}
+.feat li::before{content:"";position:absolute;left:0;top:.6em;width:.5rem;height:.5rem;background:var(--orange)}
+.optl{font-size:.9rem;font-weight:600;display:block;margin-bottom:.4rem}
+.msg{min-height:1.4em;font-size:.92rem;font-weight:600}
+.msg.err{color:var(--ink);background:#FFD9C4;border-left:5px solid var(--orange);padding:.5rem .75rem}
+:root[data-theme="dark"] .msg.err{background:#3B2314}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .msg.err{background:#3B2314}}
+
+/* ============ FEATURE BANDS ============ */
+.split{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem 1.5rem;align-items:center;padding:clamp(3rem,7vw,6rem) var(--pad)}
+.split .txt{grid-column:1/7}
+.split .vis{grid-column:8/13;display:grid;place-items:center}
+.split h2{margin-bottom:1.25rem}
+.split p+p,.split ul{margin-top:1rem}
+.split .txt>p{max-width:46ch}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 1.75rem}
+.tags li{border:1.5px solid currentColor;padding:.3rem .8rem;font-weight:600;font-size:.92rem}
+.gift-band{background:var(--orange);color:#0A0A0A}
+.gift-band .vis{grid-column:8/13}
+.gift-band .txt{grid-column:1/7}
+.gift-band :focus-visible{outline-color:#0A0A0A}
+.tag{position:relative;background:#FBFAF6;color:#0A0A0A;border:2px solid #0A0A0A;padding:1.6rem 1.4rem 1.4rem 2.4rem;width:min(22rem,100%);transform:rotate(-2.5deg);box-shadow:6px 6px 0 #0A0A0A}
+.tag::before{content:"";position:absolute;left:.9rem;top:50%;width:.9rem;height:.9rem;margin-top:-.45rem;border-radius:50%;border:2px solid #0A0A0A;background:var(--orange)}
+.tag .to{font:400 1.7rem/1 var(--disp);text-transform:uppercase}
+.tag .m{margin-top:.6rem;font-size:1rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.tag .cap{margin-top:.9rem;font-size:.78rem;opacity:.7}
+.story-tease{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem 1.5rem;align-items:end}
+.story-tease h2{grid-column:1/8}
+.story-tease div{grid-column:8/13}
+.story-tease p{margin-bottom:1.25rem}
+
+/* ============ PAGE HEADERS ============ */
+.pg-head{padding:clamp(2.5rem,6vw,5rem) var(--pad) 0}
+.pg-head h1{font-size:clamp(3rem,9vw,8rem);line-height:.9}
+.pg-head h1:focus,.pd h1:focus,.cartpg h1:focus{outline:none}
+.pg-head p{max-width:56ch;margin-top:1.25rem}
+
+/* ============ PRODUCT DETAIL ============ */
+.pd{display:grid;grid-template-columns:repeat(12,1fr);gap:2rem 2.5rem;padding:clamp(1.5rem,4vw,3rem) var(--pad) clamp(3rem,7vw,6rem);align-items:start}
+.pd-img{grid-column:1/8;position:sticky;top:calc(env(safe-area-inset-top,0px) + 6rem);background:var(--tint,var(--grey));aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
+.pd-img::before{content:attr(data-n);position:absolute;font:400 min(40vw,26rem)/1 var(--disp);color:transparent;-webkit-text-stroke:2px var(--line);inset:auto;pointer-events:none}
+.pd-img svg{position:relative;width:62%;height:auto}
+.pd-info{grid-column:8/13;display:grid;gap:1.25rem}
+.pd h1{font-size:clamp(2.8rem,6vw,5rem)}
+.price.big{font-size:1.6rem}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;font-size:.95rem;margin:0}
+.spec dt{font-weight:700}.spec dd{margin:0}
+.selected{border:2px solid var(--ink);padding:.8rem 1rem;font-size:.95rem}
+.selected strong{font-weight:700}
+.stepper{display:inline-flex;border:2px solid var(--ink)}
+.stepper button{width:48px;min-height:48px;border:0;background:transparent;font-size:1.3rem;font-weight:700;cursor:pointer}
+.stepper button:hover{background:var(--grey)}
+.stepper input{width:3.6rem;text-align:center;border:0;border-inline:2px solid var(--ink);background:transparent;font-weight:700;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tip{font-size:.92rem;color:var(--mid)}
+.tip a{color:var(--ink);font-weight:600}
+
+/* ============ CART ============ */
+.cartpg{padding:clamp(2rem,5vw,4rem) var(--pad) clamp(3rem,7vw,6rem)}
+.cartpg h1{font-size:clamp(3rem,8vw,6.5rem)}
+.cart-grid{display:grid;grid-template-columns:minmax(0,1fr) 24rem;gap:2.5rem;margin-top:2rem;align-items:start}
+.crow{display:grid;grid-template-columns:7rem 1fr auto auto;gap:1rem 1.5rem;align-items:center;padding:1.25rem 0;border-top:2px solid var(--ink)}
+.crow:last-child{border-bottom:2px solid var(--ink)}
+.cimg{background:var(--tint,var(--grey));aspect-ratio:1;display:grid;place-items:center}
+.cimg svg{width:76%;height:auto}
+.cinfo{display:grid;gap:.15rem;justify-items:start}
+.cinfo h3{font-size:1.45rem}
+.cinfo h3 a{text-decoration:none}
+.cinfo p{font-size:.93rem;color:var(--mid)}
+.ctotal{font-weight:700;font-size:1.1rem;min-width:6rem;text-align:right}
+.sum{border:2px solid var(--ink);padding:1.5rem;position:sticky;top:calc(env(safe-area-inset-top,0px) + 6rem);display:grid;gap:1rem;background:var(--paper)}
+.sum h2{font-size:2.2rem}
+.sum dl{margin:0;display:grid;gap:.6rem}
+.sum .r{display:flex;justify-content:space-between;gap:1rem}
+.sum dt{font-weight:500}.sum dd{margin:0;font-weight:700}
+.sum small{display:block;font-weight:400;color:var(--mid);font-size:.82rem}
+.sum .total-row{border-top:2px solid var(--ink);padding-top:.8rem;font-size:1.3rem;animation:flash .5s ease}
+@keyframes flash{0%{background:var(--orange)}100%{background:transparent}}
+.proto{font-size:.85rem;border-left:5px solid var(--orange);padding:.4rem .75rem;background:var(--grey)}
+.gift{margin-top:2.5rem;border:2px solid var(--ink);padding:1.5rem;display:grid;gap:1rem}
+.gift h2{font-size:2.2rem}
+.check{display:flex;gap:.8rem;align-items:center;font-weight:700;min-height:44px;cursor:pointer}
+.check input{width:24px;height:24px;accent-color:var(--orange)}
+.free{display:inline-block;background:var(--orange);color:#0A0A0A;font-weight:700;padding:.1rem .6rem;font-size:.85rem}
+.gift-fields{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+.gift-fields[hidden]{display:none}
+.gift .tag{justify-self:center;margin-top:.5rem}
+.empty{border:2px dashed var(--ink);padding:clamp(2rem,6vw,4rem);text-align:center;display:grid;gap:1.25rem;justify-items:center;margin-top:2rem}
+.empty h2{font-size:clamp(2rem,5vw,3.4rem)}
+
+/* ============ FORMS ============ */
+.fld{display:grid;gap:.4rem}
+.fld label{font-weight:700}
+.fld .opt-t{font-weight:400;color:var(--mid)}
+.fld input,.fld select,.fld textarea{width:100%;min-height:48px;padding:.65rem .8rem;border:2px solid var(--ink);background:var(--paper);border-radius:0}
+.fld textarea{min-height:7.5rem;resize:vertical}
+.fld [aria-invalid="true"]{border-color:var(--orange);box-shadow:inset 5px 0 0 var(--orange)}
+.hint{font-size:.85rem;color:var(--mid)}
+.ferr{font-size:.9rem;font-weight:700;border-left:5px solid var(--orange);padding-left:.6rem}
+.ferr[hidden]{display:none}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem 1.5rem}
+.form-grid .full{grid-column:1/-1}
+.custom-pg{display:grid;grid-template-columns:repeat(12,1fr);gap:2.5rem 3rem;padding:clamp(2rem,5vw,4rem) var(--pad) clamp(3rem,7vw,6rem);align-items:start}
+.custom-pg>div:first-child{grid-column:1/6}
+.custom-pg>div:last-child{grid-column:6/13}
+.custom-pg h1{font-size:clamp(3rem,7vw,6rem);margin-bottom:1.25rem}
+.custom-pg h1:focus{outline:none}
+.steps{margin-top:2rem;display:grid;gap:1.1rem;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2.6rem 1fr;gap:.8rem}
+.steps li::before{content:counter(s);font:400 1.6rem/1 var(--disp);background:var(--ink);color:var(--paper);display:grid;place-items:center;width:2.6rem;height:2.6rem}
+.steps strong{display:block}
+.form-card{border:2px solid var(--ink);padding:clamp(1.25rem,3vw,2.25rem);background:var(--paper)}
+.form-card .proto{margin-bottom:1.5rem}
+.confirm dl{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.25rem;margin:1.25rem 0;font-size:.95rem}
+.confirm dt{font-weight:700}.confirm dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
+.confirm h2{font-size:clamp(2rem,4vw,3rem)}
+
+/* ============ STORY ============ */
+.story{display:grid;grid-template-columns:repeat(12,1fr);gap:2.5rem 3rem;padding:clamp(2rem,5vw,4rem) var(--pad) clamp(3rem,7vw,6rem);align-items:start}
+.story .s-vis{grid-column:1/6;position:sticky;top:calc(env(safe-area-inset-top,0px) + 6rem);background:var(--tint0);aspect-ratio:1;display:grid;place-items:center;overflow:hidden}
+.s-vis .a{position:absolute;width:56%;left:6%;top:22%;transform:rotate(-9deg)}
+.s-vis .b{position:absolute;width:56%;right:5%;top:12%;transform:rotate(8deg)}
+.s-copy{grid-column:6/13;display:grid;gap:1.4rem;max-width:62ch}
+.s-copy h2{font-size:clamp(1.9rem,3.6vw,3rem);margin-top:1rem}
+.quote{font:400 clamp(1.8rem,3.6vw,3rem)/1 var(--disp);text-transform:uppercase;border-left:8px solid var(--orange);padding-left:1.25rem;margin:.5rem 0}
+.values{display:grid;gap:1rem}
+.values li{border-top:2px solid var(--ink);padding-top:.7rem}
+.values strong{display:block;font-size:1.1rem}
+
+/* ============ FOOTER ============ */
+.ftr{background:var(--band);color:var(--band-ink);padding:clamp(2.5rem,6vw,4.5rem) var(--pad) 2rem}
+.ftr-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:2.5rem}
+.ftr .mark{font-size:2.6rem}
+.ftr h2{font-size:1.4rem;margin-bottom:.8rem;color:var(--orange)}
+.ftr a{text-decoration:none}
+.ftr a:hover{text-decoration:underline;text-decoration-color:var(--orange);text-decoration-thickness:2px}
+.ftr li a{display:inline-flex;min-height:36px;align-items:center}
+.ftr address{font-style:normal}
+.ftr .fine{margin-top:2.5rem;border-top:1px solid rgba(247,245,240,.25);padding-top:1.25rem;font-size:.85rem;opacity:.85}
+
+/* ============ TOAST + DIALOG ============ */
+.toast{position:fixed;left:50%;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,160%);background:var(--band);color:var(--band-ink);border-left:6px solid var(--orange);padding:.85rem 1.2rem;max-width:min(32rem,92vw);z-index:60;transition:transform .35s cubic-bezier(.2,.8,.2,1);font-weight:600;font-size:.95rem}
+.toast.show{transform:translate(-50%,0)}
+.toast a{color:var(--orange);margin-left:.6rem;font-weight:700}
+dialog{border:2px solid var(--ink);background:var(--paper);color:var(--ink);padding:0;width:min(42rem,94vw);max-height:90vh;border-radius:0}
+dialog::backdrop{background:rgba(10,10,10,.65)}
+.dlg-in{padding:clamp(1.25rem,3vw,2rem);display:grid;gap:1.1rem}
+.dlg-in h2{font-size:2.4rem}
+.rv li{display:grid;grid-template-columns:3.6rem 1fr auto;gap:.9rem;align-items:center;padding:.6rem 0;border-top:1px solid var(--line)}
+.rv .cimg svg{width:90%}
+.rv p{font-size:.92rem}.rv strong{font-weight:700}
+.dlg-sum{display:grid;gap:.4rem;border-top:2px solid var(--ink);padding-top:.8rem}
+.dlg-sum div{display:flex;justify-content:space-between;gap:1rem}
+.dlg-sum .t{font-size:1.3rem;font-weight:700}
+.dlg-act{display:flex;gap:.7rem;flex-wrap:wrap}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1060px){
+  .sgrid{grid-template-columns:repeat(2,1fr)}
+  .sgrid>:nth-child(3n+2){margin-top:0}
+  .sgrid>:nth-child(2n){margin-top:3rem}
+  .ftr-grid{grid-template-columns:1fr 1fr}
+  .cart-grid{grid-template-columns:1fr}
+  .sum{position:static}
+}
+@media (max-width:900px){
+  .menu-btn{display:inline-flex;align-items:center}
+  .cart-link{margin-left:auto}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:2px solid var(--ink);padding:.5rem var(--pad) 1rem;margin:0}
+  .nav.open{display:flex}
+  .nav a{min-height:52px;font-size:1.15rem;border-bottom:1px solid var(--line)}
+  .nav a::after{display:none}
+  .nav a[aria-current="page"]{color:var(--orange)}
+  .hero{display:block}
+  .hero-stage-col{margin-top:2.25rem}
+  .hero-stage{width:min(30rem,92%)}
+  .pillars{grid-template-columns:1fr}
+  .pillars>div{border-left:0;border-top:1px solid rgba(247,245,240,.25)}
+  .pillars>div:first-child{border-top:0}
+  .fgrid>*{grid-column:span 12!important;margin-top:0!important}
+  .f0 .pimg,.f3 .pimg{aspect-ratio:1/1;--sw:62%}
+  .split .txt,.split .vis,.gift-band .txt,.gift-band .vis{grid-column:1/-1}
+  .story-tease h2,.story-tease div{grid-column:1/-1}
+  .pd-img,.pd-info{grid-column:1/-1}
+  .pd-img{position:relative;top:auto}
+  .custom-pg>div:first-child,.custom-pg>div:last-child{grid-column:1/-1}
+  .story .s-vis,.s-copy{grid-column:1/-1}
+  .story .s-vis{position:relative;top:auto;max-height:26rem}
+  .gift-fields{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .sgrid{grid-template-columns:1fr}
+  .sgrid>:nth-child(2n){margin-top:0}
+  .form-grid{grid-template-columns:1fr}
+  .ftr-grid{grid-template-columns:1fr}
+  .crow{grid-template-columns:5.5rem 1fr;grid-template-areas:"i n" "q t"}
+  .crow .cimg{grid-area:i}.crow .cinfo{grid-area:n}.crow .stepper{grid-area:q;justify-self:start}.crow .ctotal{grid-area:t;align-self:center}
+  .mark{font-size:1.55rem}
+  .cart-link{padding:0 .6rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#app">Skip to main content</a>
+<div class="proto-strip" role="note">Prototype storefront: products, prices and materials are illustrative. No payments are taken and no real orders are placed.</div>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a class="mark" href="#/" aria-label="CourtCraft, home">C<span class="o" aria-hidden="true"></span>URTCRAFT</a>
+    <nav id="mainNav" class="nav" aria-label="Main">
+      <a href="#/" data-nav="">Home</a>
+      <a href="#/shop" data-nav="shop">Shop Jerseys</a>
+      <a href="#/custom" data-nav="custom">Custom Design</a>
+      <a href="#/story" data-nav="story">Our Story</a>
+    </nav>
+    <a class="cart-link" id="cartLink" href="#/cart" data-nav="cart">Cart <span class="count" id="cartCount">0</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" data-act="nav-toggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
+  </div>
+</header>
+
+<main id="app" tabindex="-1"></main>
+
+<footer class="ftr">
+  <div class="ftr-grid">
+    <div>
+      <a class="mark" href="#/" aria-label="CourtCraft, home">C<span class="o" aria-hidden="true"></span>URTCRAFT</a>
+      <p style="margin-top:1rem;max-width:32ch">Fashion-first sportswear, started by two sisters. Jerseys you can wear, give and design.</p>
+    </div>
+    <nav aria-label="Footer">
+      <h2>Explore</h2>
+      <ul>
+        <li><a href="#/">Home</a></li>
+        <li><a href="#/shop">Shop Jerseys</a></li>
+        <li><a href="#/custom">Custom Design</a></li>
+        <li><a href="#/story">Our Story</a></li>
+        <li><a href="#/cart">Cart</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2>Good to know</h2>
+      <ul>
+        <li>Gift wrapping is free</li>
+        <li>Group orders welcome</li>
+        <li>Custom designs on request</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Contact</h2>
+      <address>
+        <a href="mailto:hello@courtcraft.example">hello@courtcraft.example</a><br>
+        +91 00000 00000<br>
+        CourtCraft Studio, India
+      </address>
+      <p style="font-size:.85rem;margin-top:.6rem;opacity:.8">Placeholder contact details for this prototype.</p>
+    </div>
+  </div>
+  <p class="fine">CourtCraft is a front-end prototype. Cart contents are saved only in this browser. Checkout does not process payments or arrange delivery.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="dlg" aria-labelledby="dlgTitle"><div class="dlg-in" id="dlgBody"></div></dialog>
+
+<script>
+(()=>{
+'use strict';
+
+/* =====================================================================
+   HELPERS
+===================================================================== */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN');
+const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
+
+/* =====================================================================
+   PRODUCT DATA  (illustrative: edit or append to add products)
+   pattern: solid | hoops | stripes | sash | split | pixel
+   shape:   jersey | bib
+===================================================================== */
+const PAL={orange:['Orange','#E8590C'],black:['Black','#121212'],white:['White','#FBFAF6'],blue:['Blue','#1F4FB4'],grey:['Grey','#8C8D91']};
+const lum=h=>{const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+const inkOn=h=>lum(h)>.18?'#121212':'#FBFAF6';
+const V=(b,a,t)=>({name:PAL[b][0]+(a&&a!==b?' / '+PAL[a][0]:''),base:PAL[b][1],alt:PAL[a||b][1],trim:PAL[t||a||b][1],ink:inkOn(PAL[b][1])});
+const JERSEY_SIZES=['S','M','L','XL','XXL'];
+
+const PRODUCTS=[
+ {id:'matchday-hoops',name:'Matchday Hoops',price:2199,shape:'jersey',pattern:'hoops',number:'10',
+  blurb:'Horizontal hoops with a stitched crest. Loud enough for the terrace, easy enough for the street.',
+  fabric:'Recycled polyester interlock, 150 GSM',fit:'Relaxed street fit, true to size',
+  features:['Breathable knit with mesh side panels','Stitched crest and number, no peeling prints','Ribbed collar and cuffs'],
+  sizes:JERSEY_SIZES,colors:[V('orange','black'),V('black','orange'),V('white','blue'),V('blue','white')]},
+ {id:'terrace-stripe',name:'Terrace Stripe',price:1999,shape:'jersey',pattern:'stripes',number:'7',
+  blurb:'Classic vertical stripes in a soft cotton blend. Made for everyday wear, not just match days.',
+  fabric:'Cotton-blend piqué, 180 GSM (60% cotton, 40% polyester)',fit:'Slightly boxy, easy through the body',
+  features:['Soft, matte hand-feel','Reinforced neck tape','Pre-washed to reduce shrinkage'],
+  sizes:JERSEY_SIZES,colors:[V('black','grey'),V('white','black'),V('blue','white'),V('grey','black')]},
+ {id:'night-derby',name:'Night Derby',price:2499,shape:'jersey',pattern:'sash',number:'9',
+  blurb:'A diagonal sash across a dark body. Built for the late kick-off and the long walk home.',
+  fabric:'Lightweight micro-mesh polyester, 120 GSM',fit:'Regular fit, slightly longer hem',
+  features:['Quick-dry, moisture-wicking knit','Contrast sash panel','Reflective crest detail'],
+  sizes:JERSEY_SIZES,colors:[V('black','orange'),V('grey','black'),V('white','orange'),V('blue','white')]},
+ {id:'sunday-league',name:'Sunday League',price:1499,shape:'jersey',pattern:'solid',number:'11',
+  blurb:'One colour, one number, no noise. The easiest jersey to build an outfit around.',
+  fabric:'Everyday polyester, 140 GSM',fit:'Regular fit, true to size',
+  features:['Smooth, lightweight finish','Tag-free neck for comfort','Available in the widest colour range'],
+  sizes:JERSEY_SIZES,colors:[V('white'),V('blue'),V('orange'),V('black'),V('grey')]},
+ {id:'offside-split',name:'Offside Split',price:2799,shape:'jersey',pattern:'split',number:'23',
+  blurb:'Two colours, one clean line down the middle. Our most graphic design.',
+  fabric:'Double-knit performance polyester, 160 GSM',fit:'Athletic fit, size up for a looser look',
+  features:['Colour-blocked body panels','Flat-lock seams to reduce chafing','Stretch in the shoulders'],
+  sizes:JERSEY_SIZES,colors:[V('blue','white'),V('black','orange'),V('grey','black')]},
+ {id:'pixel-press',name:'Pixel Press',price:2299,shape:'jersey',pattern:'pixel',number:'5',
+  blurb:'A pixel-check hem that nods to old scoreboards and new streetwear.',
+  fabric:'Textured jacquard polyester, 170 GSM',fit:'Relaxed fit, true to size',
+  features:['Woven (not printed) check pattern','Soft inner face','Holds its shape after washing'],
+  sizes:JERSEY_SIZES,colors:[V('grey','black'),V('orange','black'),V('black','grey'),V('white','blue')]},
+ {id:'squad-bib',name:'Squad Bib',price:699,shape:'bib',pattern:'solid',number:'8',
+  blurb:'A light training bib for five-a-side, practice and group days. One size fits most.',
+  fabric:'Stretch mesh polyester, 90 GSM',fit:'One size, stretches to fit',
+  features:['Breathable open mesh','Elastic side panels','Easy to wear over a tee'],
+  sizes:['Free size'],colors:[V('orange'),V('blue'),V('grey'),V('white'),V('black')]}
+];
+const P=id=>PRODUCTS.find(p=>p.id===id);
+const DELIVERY=120;          // flat delivery charge per order (illustrative, not free)
+const MAX_QTY=99;
+
+/* =====================================================================
+   JERSEY MOCKUP RENDERER  (pure SVG, no external images)
+===================================================================== */
+const TEE='M132 28 L165 14 Q200 52 235 14 L268 28 L356 92 L318 156 L286 134 L286 404 Q200 420 114 404 L114 134 L82 156 L44 92 Z';
+const BIB='M140 16 Q200 86 260 16 L298 38 L284 150 L298 404 Q200 420 102 404 L116 150 L102 38 Z';
+let uid=0;
+function jerseySVG(p,c,o={}){
+  const id='cl'+(++uid), bib=p.shape==='bib', d=bib?BIB:TEE, num=o.number??p.number;
+  let pat='', ny=292, fs=num.length>2?96:128;
+  switch(p.pattern){
+    case 'hoops':  for(let y=72;y<430;y+=64)pat+=`<rect x="0" y="${y}" width="400" height="30" fill="${c.alt}"/>`;break;
+    case 'stripes':for(let x=28;x<400;x+=48)pat+=`<rect x="${x}" y="0" width="22" height="440" fill="${c.alt}"/>`;break;
+    case 'sash':   pat=`<rect x="-100" y="188" width="620" height="62" fill="${c.alt}" transform="rotate(38 200 222)"/>`;ny=372;fs=Math.min(fs,100);break;
+    case 'split':  pat=`<rect x="200" y="0" width="200" height="440" fill="${c.alt}"/>`;break;
+    case 'pixel':  for(let r=0;r<6;r++)for(let k=0;k<16;k++)if((r+k)%2===0)pat+=`<rect x="${k*25}" y="${300+r*25}" width="25" height="25" fill="${c.alt}"/>`;ny=262;fs=Math.min(fs,110);break;
+  }
+  const collar=bib?'M140 16 Q200 86 260 16':'M165 14 Q200 52 235 14';
+  const edges=bib?`<path d="M102 42 L116 150 M298 42 L284 150" />`:`<path d="M50 99 L86 159 M350 99 L314 159" />`;
+  const hem=bib?'M106 396 Q200 412 294 396':'M116 396 Q200 412 284 396';
+  const seams=bib?'M116 156 L103 398 M284 156 L297 398':'M114 142 L114 398 M286 142 L286 398';
+  const label=`${p.name} ${bib?'training bib':'jersey'} in ${c.name}`;
+  return `<svg viewBox="0 0 400 440" role="img" aria-label="${esc(label)}" focusable="false">
+<defs><clipPath id="${id}"><path d="${d}"/></clipPath></defs>
+<ellipse cx="200" cy="430" rx="115" ry="6" fill="rgba(0,0,0,.14)"/>
+<path d="${d}" fill="${c.base}"/>
+<g clip-path="url(#${id})">${pat}</g>
+<path d="${d}" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="${bib?'M140 16 Q200 86 260 16 Q200 40 140 16':'M165 14 Q200 52 235 14 Q200 30 165 14'}" fill="rgba(0,0,0,.38)"/>
+<path d="${collar}" fill="none" stroke="${c.trim}" stroke-width="12" stroke-linecap="round"/>
+<g fill="none" stroke="${c.trim}" stroke-width="12" stroke-linecap="butt">${edges}<path d="${hem}"/></g>
+<path d="${seams}" fill="none" stroke="${c.ink}" stroke-opacity=".28" stroke-width="2" stroke-dasharray="5 6"/>
+<circle cx="246" cy="112" r="14" fill="${c.trim}" stroke="${c.ink}" stroke-width="1.5"/>
+<text x="246" y="117" text-anchor="middle" font-family="Archivo,Arial,sans-serif" font-weight="700" font-size="11" fill="${inkOn(c.trim)}">CC</text>
+<text x="200" y="${ny}" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="${fs}" fill="${c.ink}" stroke="${c.base}" stroke-width="9" paint-order="stroke" stroke-linejoin="round">${esc(num)}</text>
+</svg>`;
+}
+const BALL=`<svg viewBox="0 0 200 200" aria-hidden="true" focusable="false"><circle cx="100" cy="100" r="98" style="fill:var(--orange)"/><g fill="none" stroke="#0A0A0A" stroke-width="2.6"><path d="M100 2V198M2 100H198"/><path d="M28 30Q74 100 28 170"/><path d="M172 30Q126 100 172 170"/><circle cx="100" cy="100" r="98"/></g></svg>`;
+
+/* =====================================================================
+   CART + GIFT STATE  (localStorage with safe fallbacks)
+===================================================================== */
+const KEY='courtcraft.cart.v1', GKEY='courtcraft.gift.v1';
+let cart=[], gift={on:false,name:'',msg:''};
+function loadState(){
+  try{const raw=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(raw))cart=raw.filter(i=>i&&P(i.pid)&&P(i.pid).colors.some(c=>c.name===i.color)&&P(i.pid).sizes.includes(i.size)&&Number.isInteger(i.qty)&&i.qty>0).map(i=>({...i,qty:clamp(i.qty,1,MAX_QTY)}))}catch(e){cart=[]}
+  try{const g=JSON.parse(localStorage.getItem(GKEY));if(g&&typeof g==='object')gift={on:!!g.on,name:String(g.name||'').slice(0,60),msg:String(g.msg||'').slice(0,200)}}catch(e){}
+}
+function saveState(bump){
+  try{localStorage.setItem(KEY,JSON.stringify(cart));localStorage.setItem(GKEY,JSON.stringify(gift))}catch(e){}
+  updateCount(bump);
+}
+const itemKey=(pid,color,size)=>`${pid}|${color}|${size}`;
+const keyOf=i=>itemKey(i.pid,i.color,i.size);
+const colorOf=i=>P(i.pid).colors.find(c=>c.name===i.color);
+const cartCount=()=>cart.reduce((a,i)=>a+i.qty,0);
+function totals(){
+  const sub=cart.reduce((a,i)=>a+P(i.pid).price*i.qty,0);
+  const del=cart.length?DELIVERY:0;
+  return {sub,del,total:sub+del,count:cartCount()};
+}
+function updateCount(bump){
+  const n=cartCount(), el=$('#cartCount');
+  el.textContent=n;
+  $('#cartLink').setAttribute('aria-label',`Cart, ${n} ${n===1?'item':'items'}`);
+  if(bump){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump')}
+}
+function addLine(pid,color,size,qty){
+  const k=itemKey(pid,color,size), ex=cart.find(i=>keyOf(i)===k);
+  if(ex)ex.qty=clamp(ex.qty+qty,1,MAX_QTY); else cart.push({pid,color,size,qty:clamp(qty,1,MAX_QTY)});
+  saveState(true);
+}
+
+/* =====================================================================
+   PRODUCT SELECTION STATE
+===================================================================== */
+const sel={};
+const S=pid=>sel[pid]||(sel[pid]={ci:null,size:null,qty:1,msg:''});
+
+function swatchBtns(p,s){
+  return p.colors.map((c,i)=>`<button type="button" class="sw" data-act="swatch" data-pid="${p.id}" data-ci="${i}" aria-pressed="${s.ci===i}" aria-label="${esc(c.name)}" title="${esc(c.name)}" style="--c1:${c.base};--c2:${c.alt}"></button>`).join('');
+}
+function sizeBtns(p,s){
+  return p.sizes.map(z=>`<button type="button" class="chip" data-act="size" data-pid="${p.id}" data-size="${esc(z)}" aria-pressed="${s.size===z}">${esc(z)}</button>`).join('');
+}
+function dotsList(p){
+  return `<ul class="dots" aria-label="Available colours: ${esc(p.colors.map(c=>c.name).join(', '))}">${p.colors.map(c=>`<li style="--c1:${c.base};--c2:${c.alt}"></li>`).join('')}</ul>`;
+}
+function selectedLine(p,s){
+  const c=s.ci==null?null:p.colors[s.ci];
+  const lt=c&&s.size?` · Line total <strong>${inr(p.price*s.qty)}</strong>`:'';
+  return `Selected: <strong>${c?esc(c.name):'no colour yet'}</strong> · <strong>${s.size?'Size '+esc(s.size):'no size yet'}</strong> · Qty <strong>${s.qty}</strong>${lt}`;
+}
+
+/* Shop-page card (full controls) */
+function cardFull(p,i){
+  const s=S(p.id), c=p.colors[s.ci??0];
+  return `<article class="pcard" data-product="${p.id}" data-ctx="card" style="--tint:var(--tint${i%6})">
+  <a class="pimg" href="#/product/${p.id}">${jerseySVG(p,c)}</a>
+  <div class="pbody">
+    <div class="prow"><h3><a href="#/product/${p.id}">${esc(p.name)}</a></h3><p class="price">${inr(p.price)}</p></div>
+    <p class="fabric">${esc(p.fabric)}</p>
+    <ul class="feat">${p.features.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
+    <div><span class="optl">Colour: ${s.ci==null?'choose one':esc(c.name)}</span><div class="opts" role="group" aria-label="Colour for ${esc(p.name)}">${swatchBtns(p,s)}</div></div>
+    <div><span class="optl">Size: ${s.size?esc(s.size):'choose one'}</span><div class="opts" role="group" aria-label="Size for ${esc(p.name)}">${sizeBtns(p,s)}</div></div>
+    <p class="msg ${s.msg?'err':''}" ${s.msg?'role="alert"':''}>${esc(s.msg)}</p>
+    <div class="pact"><button type="button" class="btn btn-primary" data-act="add" data-pid="${p.id}">Add to cart</button><a class="btn" href="#/product/${p.id}">View details</a></div>
+  </div></article>`;
+}
+/* Home-page card (lighter) */
+function cardLite(p,i){
+  const c=p.colors[0];
+  return `<article class="fcard f${i}"><a class="pimg" href="#/product/${p.id}" style="--tint:var(--tint${[0,2,3,1][i]})">${jerseySVG(p,c)}</a>
+  <div class="fbody"><div class="prow"><h3><a href="#/product/${p.id}">${esc(p.name)}</a></h3><p class="price">${inr(p.price)}</p></div>
+  <p class="fabric">${esc(p.fabric)}</p>${dotsList(p)}
+  <div class="pact"><a class="btn btn-primary" href="#/product/${p.id}">View details &amp; add</a></div></div></article>`;
+}
+/* Product details */
+function detailHTML(p){
+  const s=S(p.id), c=p.colors[s.ci??0], i=PRODUCTS.indexOf(p);
+  return `<section class="pd" data-product="${p.id}" data-ctx="detail" style="--tint:var(--tint${i%6})" aria-labelledby="pgTitle">
+  <div class="pd-img" data-n="${esc(p.number)}">${jerseySVG(p,c)}</div>
+  <div class="pd-info">
+    <a class="link" href="#/shop">Back to all jerseys</a>
+    <h1 id="pgTitle" tabindex="-1">${esc(p.name)}</h1>
+    <p class="price big">${inr(p.price)}</p>
+    <p>${esc(p.blurb)}</p>
+    <dl class="spec"><dt>Fabric</dt><dd>${esc(p.fabric)}</dd><dt>Fit</dt><dd>${esc(p.fit)}</dd></dl>
+    <ul class="feat">${p.features.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
+    <div><span class="optl">Colour: ${s.ci==null?'choose one':esc(c.name)}</span><div class="opts" role="group" aria-label="Colour">${swatchBtns(p,s)}</div></div>
+    <div><span class="optl">Size: ${s.size?esc(s.size):'choose one'}</span><div class="opts" role="group" aria-label="Size">${sizeBtns(p,s)}</div></div>
+    <div><span class="optl" id="ql-${p.id}">Quantity</span>
+      <div class="stepper"><button type="button" data-act="qty" data-pid="${p.id}" data-d="-1" aria-label="Decrease quantity">−</button><input type="number" inputmode="numeric" min="1" max="${MAX_QTY}" value="${s.qty}" data-act="qty-set" data-pid="${p.id}" aria-labelledby="ql-${p.id}"><button type="button" data-act="qty" data-pid="${p.id}" data-d="1" aria-label="Increase quantity">+</button></div></div>
+    <p class="selected">${selectedLine(p,s)}</p>
+    <p class="msg ${s.msg?'err':''}" ${s.msg?'role="alert"':''}>${esc(s.msg)}</p>
+    <div class="pact"><button type="button" class="btn btn-primary" data-act="add" data-pid="${p.id}">Add to cart</button><a class="btn" href="#/cart">Go to cart</a></div>
+    <p class="tip">Buying for a squad? Add each size and colour separately; every combination gets its own cart line. Need more than ${MAX_QTY} of one size, or your own design? <a href="#/custom">Send a custom design request</a>.</p>
+    <p class="tip">Illustrative product details for this prototype. Gift wrapping is free; delivery is charged at checkout.</p>
+  </div></section>`;
+}
+function sigOf(el){
+  let s=`[data-act="${el.dataset.act}"]`;
+  ['pid','key','ci','size','d'].forEach(k=>{if(el.dataset[k]!==undefined)s+=`[data-${k}="${el.dataset[k]}"]`});
+  return s;
+}
+function refreshProduct(pid,fromEl){
+  const sig=fromEl?sigOf(fromEl):null, p=P(pid);
+  $$(`[data-product="${pid}"]`).forEach(el=>{el.outerHTML=el.dataset.ctx==='detail'?detailHTML(p):cardFull(p,PRODUCTS.indexOf(p))});
+  if(sig){const n=$(sig);if(n)n.focus({preventScroll:true})}
+}
+function addToCart(pid,btn){
+  const s=S(pid), p=P(pid);
+  if(s.ci==null||!s.size){
+    const miss=[s.ci==null?'a colour':'',!s.size?'a size':''].filter(Boolean).join(' and ');
+    s.msg=`Please choose ${miss} before adding to your cart.`;
+    refreshProduct(pid,btn);return;
+  }
+  const c=p.colors[s.ci];
+  addLine(pid,c.name,s.size,s.qty);
+  const n=s.qty;s.msg='';
+  refreshProduct(pid,btn);
+  toast(`Added ${n} × ${p.name} (${c.name}, ${s.size}) to your cart.`,true);
+}
+
+/* =====================================================================
+   TOAST
+===================================================================== */
+let tt;
+function toast(msg,cartLink){
+  const t=$('#toast');
+  t.innerHTML=esc(msg)+(cartLink?' <a href="#/cart">View cart</a>':'');
+  t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),4200);
+}
+
+/* =====================================================================
+   VIEWS
+===================================================================== */
+let heroCi=0;
+const heroProduct=()=>P('terrace-stripe');
+function heroStage(){return `<div class="disc">${BALL}</div><div class="hero-jersey">${jerseySVG(heroProduct(),heroProduct().colors[heroCi])}</div>`}
+
+function homeView(){
+  const feat=['matchday-hoops','terrace-stripe','night-derby','offside-split'].map(P);
+  const hp=heroProduct();
+  const blank={...P('sunday-league'),name:'Your design',number:'YOU'};
+  const blankC=V('white','white','orange');
+  return `
+  <section class="hero intro" aria-labelledby="pgTitle">
+    <div class="hero-copy">
+      <h1 id="pgTitle" tabindex="-1"><span class="line"><span>More than</span></span><span class="line"><span>a jersey.</span></span><span class="line or"><span>It’s your</span></span><span class="line or"><span>style.</span></span></h1>
+      <p class="lead">CourtCraft is sportswear for people who treat a jersey like part of their wardrobe. Pick a ready-made design, send us your own idea, or give one as a gift, wrapped free.</p>
+      <div class="cta-row"><a class="btn btn-primary" href="#/shop">Shop Jerseys</a><a class="btn" href="#/custom">Create Your Design</a></div>
+    </div>
+    <div class="hero-stage-col">
+      <div class="hero-stage" id="heroStage">${heroStage()}</div>
+      <div class="hero-sw" role="group" aria-label="Preview the ${esc(hp.name)} in another colourway"><span>Try a colourway</span>${hp.colors.map((c,i)=>`<button type="button" class="sw" data-act="hero-color" data-ci="${i}" aria-pressed="${i===heroCi}" aria-label="${esc(c.name)}" title="${esc(c.name)}" style="--c1:${c.base};--c2:${c.alt}"></button>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="band pillars" aria-label="What CourtCraft is about">
+    <div><h2>Sports</h2><p>Shapes and stripes pulled from football culture and the energy of the game.</p></div>
+    <div><h2>Fashion</h2><p>A jersey is a wardrobe piece. We design them to be styled, not stored.</p></div>
+    <div><h2>Personal</h2><p>Choose your colour and size, order for a whole squad, or tell us your own design idea.</p></div>
+  </section>
+
+  <section class="wrap" aria-labelledby="featH">
+    <div class="sec-head"><h2 id="featH">The first drop</h2><a class="link" href="#/shop">See all ${PRODUCTS.length} designs</a></div>
+    <div class="fgrid">${feat.map((p,i)=>cardLite(p,i)).join('')}</div>
+    <p class="note">Illustrative products, prices and materials for this prototype.</p>
+  </section>
+
+  <section class="band split" aria-labelledby="custH">
+    <div class="txt">
+      <h2 id="custH">Your idea. Our design team.</h2>
+      <p>Don’t see the jersey in your head? Describe it. Tell us the colours, the pattern, the names and numbers, and how many you need.</p>
+      <ul class="tags" aria-label="What you can tell us"><li>Names</li><li>Numbers</li><li>Patterns</li><li>Colours</li><li>Group orders</li></ul>
+      <a class="btn btn-primary" href="#/custom">Create Your Design</a>
+      <p class="note" style="color:inherit;opacity:.8">Final designs, feasibility, pricing and delivery timelines would be confirmed by CourtCraft.</p>
+    </div>
+    <div class="vis" style="--tint:var(--tint4)"><div style="width:min(24rem,80%);transform:rotate(3deg)">${jerseySVG(blank,blankC,{number:'YOU'})}</div></div>
+  </section>
+
+  <section class="split gift-band" aria-labelledby="giftH">
+    <div class="txt">
+      <h2 id="giftH">Gift a jersey. Wrapping is on us.</h2>
+      <p>Buying for a friend, a partner, a sibling or the whole squad? Tick “this is a gift” in your cart, add the recipient’s name and write a note. Gift wrapping and the note are free.</p>
+      <p>Delivery is charged separately at checkout.</p>
+      <div class="cta-row"><a class="btn btn-fixed-dark" href="#/shop">Shop jerseys to gift</a></div>
+    </div>
+    <div class="vis"><div class="tag"><p class="to">To: Maya</p><p class="m">Match day suits you. Wear it loud.</p><p class="cap">Example gift note</p></div></div>
+  </section>
+
+  <section class="wrap" aria-labelledby="storyH">
+    <div class="story-tease">
+      <h2 id="storyH">Two sisters. One big love of the game.</h2>
+      <div><p>CourtCraft began with two sisters who loved sport and couldn’t find jerseys that looked like the way they actually dressed. So they started making their own.</p><a class="btn" href="#/story">Read our story</a></div>
+    </div>
+  </section>`;
+}
+
+function shopView(){
+  return `<div class="pg-head"><h1 id="pgTitle" tabindex="-1">Shop jerseys</h1>
+  <p>${PRODUCTS.length} designs, each in several colourways. Pick a colour and size right on the card, or open a jersey for the full details. Buying for a group? Add every size and colour you need.</p>
+  <p class="note">All products, prices, fabrics and fits shown are illustrative for this prototype.</p></div>
+  <section class="wrap" aria-label="Jersey collection" style="padding-top:2.5rem"><div class="sgrid">${PRODUCTS.map(cardFull).join('')}</div></section>`;
+}
+
+function productView(id){
+  const p=P(id);
+  if(!p)return shopView();
+  return detailHTML(p);
+}
+
+/* ---------- Custom design ---------- */
+function customView(){
+  return `<div class="custom-pg">
+  <div>
+    <h1 id="pgTitle" tabindex="-1">Design your jersey</h1>
+    <p>Share your idea with the CourtCraft design team. Tell us what you picture, who it’s for and how many you need.</p>
+    <ol class="steps" aria-label="How custom design works">
+      <li><div><strong>Describe your idea</strong>Colours, pattern, names, numbers: anything you can put into words.</div></li>
+      <li><div><strong>The team reviews it</strong>In the live service, the design team would look at what’s possible to make.</div></li>
+      <li><div><strong>You get the details</strong>CourtCraft would confirm the final design, pricing and delivery timeline with you.</div></li>
+    </ol>
+  </div>
+  <div id="customWrap">${customForm()}</div></div>`;
+}
+function fld(id,label,inner,hint,optional){
+  return `<div class="fld ${id==='idea'||id==='group'||id==='custom'?'full':''}"><label for="cf-${id}">${label}${optional?' <span class="opt-t">(optional)</span>':''}</label>${inner}${hint?`<p class="hint" id="h-${id}">${hint}</p>`:''}<p class="ferr" id="e-${id}" role="alert" hidden></p></div>`;
+}
+function customForm(){
+  const d=(id,extra='')=>`aria-describedby="${extra?`h-${id} `:''}e-${id}"`;
+  return `<form class="form-card" id="customForm" novalidate>
+  <p class="proto"><strong>Prototype form.</strong> It checks your answers and shows a confirmation. Nothing is sent to a designer or saved on a server.</p>
+  <div class="form-grid">
+  ${fld('name','Your name',`<input id="cf-name" name="name" type="text" autocomplete="name" ${d('name')} required>`)}
+  ${fld('contact','Email or mobile number',`<input id="cf-contact" name="contact" type="text" autocomplete="email" ${d('contact',1)} required>`,'We’d use this to reply. Example: you@example.com or 98765 43210')}
+  ${fld('type','Preferred jersey type',`<select id="cf-type" name="type" ${d('type')} required><option value="">Choose a type</option><option>Football jersey</option><option>Training bib</option><option>Something else (describe below)</option></select>`)}
+  ${fld('colours','Preferred colours',`<input id="cf-colours" name="colours" type="text" ${d('colours',1)} required>`,'For example: black body, orange sleeves')}
+  ${fld('size','Requested size',`<select id="cf-size" name="size" ${d('size')} required><option value="">Choose a size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>Mixed sizes (group order)</option></select>`)}
+  ${fld('qty','Quantity required',`<input id="cf-qty" name="qty" type="number" inputmode="numeric" min="1" max="500" value="1" ${d('qty')} required>`)}
+  ${fld('group','Group order details',`<textarea id="cf-group" name="group" ${d('group',1)}></textarea>`,'Squad, family, friends or couples? Tell us the size split or occasion.',true)}
+  ${fld('idea','Describe your design idea',`<textarea id="cf-idea" name="idea" ${d('idea',1)} required></textarea>`,'At least 20 characters. Mention style, mood, inspiration, anything that helps.')}
+  ${fld('custom','Names, numbers or pattern details',`<textarea id="cf-custom" name="custom" ${d('custom')}></textarea>`,'',true)}
+  </div>
+  <div class="cta-row"><button type="submit" class="btn btn-primary">Submit design request</button></div>
+  <p class="note">Final designs, production feasibility, pricing and delivery timelines would be confirmed by CourtCraft. Submitting does not place an order.</p>
+  </form>`;
+}
+function validateCustom(f){
+  const v=n=>f.elements[n].value.trim(), e={};
+  if(v('name').length<2)e.name='Enter your name (at least 2 characters).';
+  const c=v('contact'), ph=c.replace(/[\s\-()]/g,'');
+  if(!c)e.contact='Enter an email address or mobile number so we know how to reach you.';
+  else if(!(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c)||/^(\+?91)?[6-9]\d{9}$/.test(ph)))e.contact='Enter a valid email address or a 10-digit Indian mobile number.';
+  if(!v('type'))e.type='Choose the jersey type you’d like.';
+  if(v('colours').length<2)e.colours='Tell us which colours you’d like.';
+  if(!v('size'))e.size='Choose a size, or “Mixed sizes” for a group order.';
+  const q=Number(v('qty'));
+  if(!Number.isInteger(q)||q<1||q>500)e.qty='Enter a whole number between 1 and 500.';
+  if(v('idea').length<20)e.idea='Describe your idea in at least 20 characters so the team has something to work with.';
+  return e;
+}
+function submitCustom(f){
+  const errs=validateCustom(f);
+  ['name','contact','type','colours','size','qty','group','idea','custom'].forEach(k=>{
+    const inp=f.elements[k],er=$('#e-'+k);
+    if(errs[k]){er.textContent=errs[k];er.hidden=false;inp.setAttribute('aria-invalid','true')}
+    else{er.hidden=true;er.textContent='';inp.removeAttribute('aria-invalid')}
+  });
+  const first=Object.keys(errs)[0];
+  if(first){f.elements[first].focus();return}
+  const v=n=>f.elements[n].value.trim()||'Not provided';
+  $('#customWrap').innerHTML=`<div class="form-card confirm" role="status">
+    <h2 id="cfTitle" tabindex="-1">Thanks, ${esc(f.elements.name.value.trim())}. Here’s your design request.</h2>
+    <p class="proto"><strong>Prototype only.</strong> Your request was not sent to a designer or saved anywhere. In the live service, the CourtCraft team would confirm the final design, whether it can be made, the price and the delivery timeline with you.</p>
+    <dl><dt>Contact</dt><dd>${esc(v('contact'))}</dd><dt>Type</dt><dd>${esc(v('type'))}</dd><dt>Colours</dt><dd>${esc(v('colours'))}</dd><dt>Size</dt><dd>${esc(v('size'))}</dd><dt>Quantity</dt><dd>${esc(v('qty'))}</dd><dt>Group details</dt><dd>${esc(v('group'))}</dd><dt>Design idea</dt><dd>${esc(v('idea'))}</dd><dt>Names, numbers, patterns</dt><dd>${esc(v('custom'))}</dd></dl>
+    <div class="cta-row"><button type="button" class="btn" data-act="custom-again">Start another request</button><a class="btn btn-primary" href="#/shop">Shop jerseys</a></div></div>`;
+  $('#cfTitle').focus();
+}
+
+/* ---------- Story ---------- */
+function storyView(){
+  const a=P('matchday-hoops'), b=P('night-derby');
+  return `<div class="pg-head"><h1 id="pgTitle" tabindex="-1">Two sisters. One big love of the game.</h1></div>
+  <div class="story">
+    <div class="s-vis" aria-label="Two CourtCraft jerseys leaning together"><div class="a">${jerseySVG(a,a.colors[0])}</div><div class="b">${jerseySVG(b,b.colors[1])}</div></div>
+    <div class="s-copy">
+      <p>CourtCraft started with two sisters who couldn’t stop talking about sport, and couldn’t find jerseys that looked like the way they actually dress.</p>
+      <p>Football jerseys already carry so much: the stripes of a favourite side, the number on a friend’s back, the memory of a good night out. We wanted that feeling, but cut and coloured like something you’d pick from your own wardrobe.</p>
+      <p class="quote">A jersey should say something about you.</p>
+      <h2>What we’re building</h2>
+      <p>A small space where you can discover distinctive jerseys, choose your own colour and size, and buy as many as you need for yourself, your friends or your whole squad.</p>
+      <p>If the jersey you want isn’t there, tell us about it. You can send your own design idea to our team, and we’ll let you know what’s possible and what it would cost.</p>
+      <h2>What we care about</h2>
+      <ul class="values">
+        <li><strong>Wear it your way</strong>Sportswear that works on the pitch, the sofa and the street.</li>
+        <li><strong>Make it yours</strong>Pick your colours and sizes, or share a design of your own.</li>
+        <li><strong>Give it freely</strong>Gifting is part of the brand, so gift wrapping and a personal note are always free.</li>
+      </ul>
+      <div class="cta-row"><a class="btn btn-primary" href="#/shop">Shop Jerseys</a><a class="btn" href="#/custom">Create Your Design</a></div>
+      <p class="note">Draft story for this prototype. Replace it with the founders’ own words before launch.</p>
+    </div>
+  </div>`;
+}
+
+/* ---------- Cart + gifting + checkout preview ---------- */
+function cartRows(){
+  return cart.map(i=>{
+    const p=P(i.pid), c=colorOf(i), idx=PRODUCTS.indexOf(p), k=esc(keyOf(i));
+    return `<li class="crow" style="--tint:var(--tint${idx%6})">
+    <div class="cimg">${jerseySVG(p,c)}</div>
+    <div class="cinfo"><h3><a href="#/product/${p.id}">${esc(p.name)}</a></h3><p>${esc(c.name)} · Size ${esc(i.size)}</p><p>${inr(p.price)} each</p>
+      <button type="button" class="link" data-act="cart-del" data-key="${k}">Remove<span class="sr"> ${esc(p.name)}, ${esc(c.name)}, ${esc(i.size)}</span></button></div>
+    <div class="stepper"><button type="button" data-act="cart-dec" data-key="${k}" aria-label="Decrease quantity of ${esc(p.name)}, ${esc(c.name)}, ${esc(i.size)}">−</button><input type="number" inputmode="numeric" min="1" max="${MAX_QTY}" value="${i.qty}" data-act="cart-set" data-key="${k}" aria-label="Quantity of ${esc(p.name)}, ${esc(c.name)}, ${esc(i.size)}"><button type="button" data-act="cart-inc" data-key="${k}" aria-label="Increase quantity of ${esc(p.name)}, ${esc(c.name)}, ${esc(i.size)}">+</button></div>
+    <p class="ctotal">${inr(p.price*i.qty)}</p></li>`}).join('');
+}
+function summaryHTML(){
+  const t=totals();
+  return `<h2>Order summary</h2>
+  <dl>
+    <div class="r"><dt>Items</dt><dd>${t.count}</dd></div>
+    <div class="r"><dt>Subtotal</dt><dd>${inr(t.sub)}</dd></div>
+    <div class="r"><dt>Delivery<small>Flat rate per order (illustrative)</small></dt><dd>${inr(t.del)}</dd></div>
+    ${gift.on?`<div class="r"><dt>Gift wrapping &amp; note${gift.name.trim()?`<small>For ${esc(gift.name.trim())}</small>`:''}</dt><dd>Free</dd></div>`:''}
+    <div class="r total-row"><dt>Total</dt><dd>${inr(t.total)}</dd></div>
+  </dl>
+  <button type="button" class="btn btn-primary" data-act="review">Review order</button>
+  <a class="btn" href="#/shop">Continue shopping</a>
+  <p class="proto"><strong>Prototype checkout.</strong> No payment is taken, no real order is created and nothing is delivered.</p>`;
+}
+function cartView(){
+  if(!cart.length){
+    return `<div class="cartpg"><h1 id="pgTitle" tabindex="-1">Your cart</h1>
+    <div class="empty"><h2>Nothing here yet</h2><p>Add a jersey, pick a colour and size, and it will show up here. Your cart is saved in this browser.</p>
+    <div class="cta-row"><a class="btn btn-primary" href="#/shop">Continue shopping</a><a class="btn" href="#/custom">Create Your Design</a></div></div></div>`;
+  }
+  return `<div class="cartpg"><h1 id="pgTitle" tabindex="-1">Your cart</h1>
+  <div class="cart-grid">
+    <div>
+      <ul id="cartList">${cartRows()}</ul>
+      <p class="note">Ordering for a group? Add as many sizes and colours as you like. Each combination keeps its own line, and totals update instantly.</p>
+      <section class="gift" aria-labelledby="giftHead">
+        <h2 id="giftHead">Is this a gift?</h2>
+        <p>Gift wrapping and a personal note are <span class="free">Free</span>. Delivery is still charged separately.</p>
+        <label class="check"><input type="checkbox" id="giftOn" ${gift.on?'checked':''}> Yes, this order is a gift</label>
+        <div class="gift-fields" id="giftFields" ${gift.on?'':'hidden'}>
+          <div style="display:grid;gap:1.1rem">
+            <div class="fld"><label for="giftName">Recipient name</label><input id="giftName" type="text" maxlength="60" value="${esc(gift.name)}" autocomplete="off" aria-describedby="giftNameErr"><p class="ferr" id="giftNameErr" role="alert" hidden>Enter the recipient’s name so we can add it to the gift note.</p></div>
+            <div class="fld"><label for="giftMsg">Gift message <span class="opt-t">(optional)</span></label><textarea id="giftMsg" maxlength="200" aria-describedby="giftCount">${esc(gift.msg)}</textarea><p class="hint" id="giftCount">${gift.msg.length}/200 characters</p></div>
+          </div>
+          <div><div class="tag" aria-label="Gift note preview"><p class="to" id="pvTo">To: ${esc(gift.name.trim()||'Recipient')}</p><p class="m" id="pvMsg">${esc(gift.msg.trim()||'Your message will appear here.')}</p><p class="cap">Gift note preview</p></div></div>
+        </div>
+      </section>
+    </div>
+    <aside class="sum" id="sumWrap" aria-label="Order summary">${summaryHTML()}</aside>
+  </div></div>`;
+}
+function refreshCartParts(fromEl){
+  if(!cart.length){route(true);return}
+  const sig=fromEl?sigOf(fromEl):null;
+  $('#cartList').innerHTML=cartRows();
+  $('#sumWrap').innerHTML=summaryHTML();
+  if(sig){const n=$(sig);if(n)n.focus({preventScroll:true})}
+}
+function changeQty(key,delta,el,abs){
+  const it=cart.find(i=>keyOf(i)===key);if(!it)return;
+  it.qty=clamp(abs!==undefined?abs:it.qty+delta,1,MAX_QTY);
+  saveState();refreshCartParts(el);
+}
+function removeLine(key){
+  cart=cart.filter(i=>keyOf(i)!==key);saveState();
+  if(!cart.length){route(true);return}
+  refreshCartParts();
+  const h=$('#pgTitle');h&&h.focus({preventScroll:true});
+}
+
+/* ---------- Review dialog ---------- */
+const dlg=$('#dlg'), dlgBody=$('#dlgBody');
+function reviewHTML(){
+  const t=totals();
+  return `<h2 id="dlgTitle">Review your order</h2>
+  <p class="proto"><strong>Prototype checkout.</strong> Confirming below creates a demonstration order only. No payment is taken and nothing is delivered.</p>
+  <ul class="rv">${cart.map(i=>{const p=P(i.pid),c=colorOf(i);return `<li><div class="cimg" style="--tint:var(--tint${PRODUCTS.indexOf(p)%6})">${jerseySVG(p,c)}</div><p><strong>${esc(p.name)}</strong><br>${esc(c.name)} · Size ${esc(i.size)} · ${i.qty} × ${inr(p.price)}</p><p><strong>${inr(p.price*i.qty)}</strong></p></li>`}).join('')}</ul>
+  ${gift.on?`<div class="tag" style="justify-self:start"><p class="to">Gift for ${esc(gift.name.trim())}</p><p class="m">${esc(gift.msg.trim()||'No message added.')}</p><p class="cap">Free gift wrapping and note</p></div>`:'<p>This order is not marked as a gift.</p>'}
+  <div class="dlg-sum"><div><span>Subtotal (${t.count} ${t.count===1?'item':'items'})</span><span>${inr(t.sub)}</span></div><div><span>Delivery (flat rate, illustrative)</span><span>${inr(t.del)}</span></div>${gift.on?'<div><span>Gift wrapping &amp; note</span><span>Free</span></div>':''}<div class="t"><span>Total</span><span>${inr(t.total)}</span></div></div>
+  <div class="dlg-act"><button type="button" class="btn btn-primary" data-act="confirm">Confirm demo order</button><button type="button" class="btn" data-act="close-dlg">Back to cart</button></div>`;
+}
+function openReview(){
+  if(!cart.length)return;
+  if(gift.on&&!gift.name.trim()){
+    const er=$('#giftNameErr'),inp=$('#giftName');
+    if(er){er.hidden=false;inp.setAttribute('aria-invalid','true');inp.focus()}
+    return;
+  }
+  dlgBody.innerHTML=reviewHTML();
+  dlg.showModal();
+}
+function confirmOrder(){
+  const t=totals(), ref='CC-DEMO-'+Math.random().toString(36).slice(2,7).toUpperCase(), wasGift=gift.on, who=gift.name.trim();
+  cart=[];gift={on:false,name:'',msg:''};saveState();
+  dlgBody.innerHTML=`<h2 id="dlgTitle" tabindex="-1">Demo order confirmed</h2>
+  <p>Reference <strong>${ref}</strong> · Total shown ${inr(t.total)}${wasGift?` · Gift for ${esc(who)} with free wrapping`:''}</p>
+  <p class="proto"><strong>This was a demonstration.</strong> No payment was taken, no real order was created and nothing will be delivered.</p>
+  <div class="dlg-act"><a class="btn btn-primary" href="#/" data-act="close-dlg">Back to home</a><a class="btn" href="#/shop" data-act="close-dlg">Keep browsing</a></div>`;
+  $('#dlgTitle').focus();
+  route(true);
+}
+
+/* =====================================================================
+   ROUTER
+===================================================================== */
+const TITLES={'':'CourtCraft | Fashion-first sportswear',shop:'Shop Jerseys | CourtCraft',custom:'Custom Design | CourtCraft',story:'Our Story | CourtCraft',cart:'Your Cart | CourtCraft'};
+let firstLoad=true;
+function route(keepScroll){
+  const h=location.hash.replace(/^#\/?/,''), [name,arg]=h.split('/');
+  const app=$('#app');
+  let html, nav=name||'';
+  switch(name||''){
+    case '':html=homeView();break;
+    case 'shop':html=shopView();break;
+    case 'product':html=productView(arg);nav='shop';break;
+    case 'custom':html=customView();break;
+    case 'story':html=storyView();break;
+    case 'cart':html=cartView();break;
+    default:html=homeView();nav='';
+  }
+  app.innerHTML=html;
+  const pr=name==='product'&&P(arg);
+  document.title=pr?`${pr.name} | CourtCraft`:(TITLES[name||'']||TITLES['']);
+  $$('[data-nav]').forEach(a=>{a.getAttribute('data-nav')===nav?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
+  $('#mainNav').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false');$('#menuBtn').textContent='Menu';
+  if(!keepScroll)window.scrollTo(0,0);
+  if(!firstLoad&&!keepScroll){const t=$('#pgTitle');t&&t.focus({preventScroll:true})}
+  firstLoad=false;
+}
+
+/* =====================================================================
+   EVENTS (delegated)
+===================================================================== */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');if(!t)return;
+  const a=t.dataset.act,pid=t.dataset.pid,key=t.dataset.key;
+  switch(a){
+    case 'nav-toggle':{const n=$('#mainNav'),o=n.classList.toggle('open');t.setAttribute('aria-expanded',o);t.textContent=o?'Close':'Menu';break}
+    case 'hero-color':heroCi=+t.dataset.ci;$('#heroStage').innerHTML=heroStage();$$('[data-act="hero-color"]').forEach(b=>b.setAttribute('aria-pressed',b===t));break;
+    case 'swatch':{const s=S(pid);s.ci=+t.dataset.ci;s.msg='';refreshProduct(pid,t);break}
+    case 'size':{const s=S(pid);s.size=t.dataset.size;s.msg='';refreshProduct(pid,t);break}
+    case 'qty':{const s=S(pid);s.qty=clamp(s.qty+ +t.dataset.d,1,MAX_QTY);refreshProduct(pid,t);break}
+    case 'add':addToCart(pid,t);break;
+    case 'cart-inc':changeQty(key,1,t);break;
+    case 'cart-dec':changeQty(key,-1,t);break;
+    case 'cart-del':removeLine(key);break;
+    case 'review':openReview();break;
+    case 'confirm':confirmOrder();break;
+    case 'close-dlg':dlg.close();break;
+    case 'custom-again':$('#customWrap').innerHTML=customForm();$('#cf-name').focus();break;
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset&&t.dataset.act==='qty-set'){const s=S(t.dataset.pid);s.qty=clamp(parseInt(t.value,10)||1,1,MAX_QTY);refreshProduct(t.dataset.pid,t)}
+  else if(t.dataset&&t.dataset.act==='cart-set'){changeQty(t.dataset.key,0,t,clamp(parseInt(t.value,10)||1,1,MAX_QTY))}
+  else if(t.id==='giftOn'){
+    gift.on=t.checked;$('#giftFields').hidden=!gift.on;saveState();$('#sumWrap').innerHTML=summaryHTML();
+    if(gift.on)$('#giftName').focus();
+  }
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.id==='giftName'){gift.name=t.value;$('#pvTo').textContent='To: '+(t.value.trim()||'Recipient');t.removeAttribute('aria-invalid');$('#giftNameErr').hidden=true;saveState();$('#sumWrap').innerHTML=summaryHTML()}
+  else if(t.id==='giftMsg'){gift.msg=t.value;$('#pvMsg').textContent=t.value.trim()||'Your message will appear here.';$('#giftCount').textContent=t.value.length+'/200 characters';saveState()}
+});
+document.addEventListener('submit',e=>{if(e.target.id==='customForm'){e.preventDefault();submitCustom(e.target)}});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&$('#mainNav').classList.contains('open')){$('#mainNav').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false');$('#menuBtn').textContent='Menu';$('#menuBtn').focus()}
+});
+window.addEventListener('hashchange',()=>route());
+
+/* =====================================================================
+   INIT
+===================================================================== */
+loadState();updateCount();route();
+})();
+</script>
+</body>
+</html>
